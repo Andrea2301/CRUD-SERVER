@@ -1,0 +1,27 @@
+{
+  "products": [
+    {
+      "name": "proof",
+      "price": 200,
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "name": "test",
+      "price": 200
+    },
+    {
+      "id": "3"
+    },
+    {
+      "id:": "4",
+      "name": "none",
+      "price": 230
+    },
+    {
+      "id": "fe20",
+      "name": "none",
+      "price": 100
+    }
+  ]
+}

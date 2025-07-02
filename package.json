@@ -1,0 +1,12 @@
+{
+  "name": "sky",
+  "version": "1.0.0",
+  "main": "gestion_api.js",
+  "scripts": {
+    "start:db": "npx json-server db.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": ""
+}
