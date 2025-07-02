@@ -1,74 +1,98 @@
-//reading data (GET)
+// Validación básica de producto
+function isValidProduct(product) {
+    if (!product || typeof product !== 'object') return false;
+    if (!product.name || typeof product.name !== 'string') return false;
+    if (!product.price || typeof product.price !== 'number' || product.price < 0) return false;
+    return true;
+}
+
+// READ - Obtener productos (GET)
 function getProducts() {
-    
     fetch('http://localhost:3000/products', {
         method: 'GET'
     })
     .then(response => {
-        console.log('response', response)
-        console.log('response.json', response.json)
-        return response.json
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        return response.json();
     })
     .then(data => {
-        console.log("available products: ",data)
+        console.log("✅ Productos disponibles:", data);
     })
     .catch(error => {
-        console.log("error getting products: ", error)
-    })
+        console.error("❌ Error al obtener productos:", error.message);
+    });
 }
 
-getProducts()
+getProducts();
 
-//Create new data (POST)
-
-function addProducts(){
-    const newProduct = {
-        name:"none",
-        price:100
+// CREATE - Agregar producto (POST)
+function addProduct(product) {
+    if (!isValidProduct(product)) {
+        console.error("❌ Producto inválido. Asegúrate de incluir un nombre (string) y precio (número positivo).");
+        return;
     }
 
-    fetch('http://localhost:3000/products',{
+    fetch('http://localhost:3000/products', {
         method: 'POST',
-        body:JSON.stringify(newProduct)
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(product)
     })
-    .then(response => response.json())
-    .then (data => console.log("Added product !",data))
-    .catch(error => console.error("error when adding product",error));  
+    .then(response => {
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        return response.json();
+    })
+    .then(data => console.log("✅ Producto agregado:", data))
+    .catch(error => console.error("❌ Error al agregar producto:", error.message));
 }
 
+// Uso: addProduct({ name: "Nuevo", price: 50 });
 
-// Update data (PUT)
+// UPDATE - Actualizar producto (PUT)
+function updateProduct(id, updateData) {
+    if (!id || typeof id !== 'number') {
+        console.error("❌ ID inválido para actualización.");
+        return;
+    }
 
-function updateProduct(){
+    if (!isValidProduct(updateData)) {
+        console.error("❌ Datos inválidos para actualización.");
+        return;
+    }
 
-    const update = {
-        name:"proof",
-        price:200}
-
-    fetch('http://localhost:3000/products/1',{
-    method : 'PUT',
-    body:JSON.stringify(update)
+    fetch(`http://localhost:3000/products/${id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updateData)
     })
-    .then(response => response.json())
-    .then(data => console.log("successfully updated product !",data))
-    .catch(error => console.log("Error, product not update!",error))
-}
-updateProduct()
-
-//data deletion (DELETE)
-function deleteProduct (){
-
-
-
-    fetch('http://localhost:300/products/2f50',{
-    method: 'DELETE',
-    body:JSON.stringify(deleteProduct)
+    .then(response => {
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        return response.json();
     })
-    .then(() => console.log("Deleted product"))
-    .catch(error => console.log("Error undeleted",error))
+    .then(data => console.log(`✅ Producto con ID ${id} actualizado:`, data))
+    .catch(error => console.error("❌ Error al actualizar producto:", error.message));
 }
 
+// Uso: updateProduct(1, { name: "Modificado", price: 123 });
 
+// DELETE - Eliminar producto (DELETE)
+function deleteProduct(id) {
+    if (!id || typeof id !== 'number') {
+        console.error("❌ ID inválido para eliminar.");
+        return;
+    }
 
+    fetch(`http://localhost:3000/products/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        console.log(`✅ Producto con ID ${id} eliminado.`);
+    })
+    .catch(error => console.error("❌ Error al eliminar producto:", error.message));
+}
 
-
+// Uso: deleteProduct(1);
