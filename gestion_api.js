@@ -16,10 +16,10 @@ function getProducts() {
         return response.json();
     })
     .then(data => {
-        console.log("✅ Productos disponibles:", data);
+        console.log("Aviable Products:", data);
     })
     .catch(error => {
-        console.error("❌ Error al obtener productos:", error.message);
+        console.error(" Error getting produts:", error.message);
     });
 }
 
@@ -28,7 +28,7 @@ getProducts();
 // CREATE - Agregar producto (POST)
 function addProduct(product) {
     if (!isValidProduct(product)) {
-        console.error("❌ Producto inválido. Asegúrate de incluir un nombre (string) y precio (número positivo).");
+        console.error("Invalid product. Make sure to include a name (string) and price (positive number).");
         return;
     }
 
@@ -43,8 +43,8 @@ function addProduct(product) {
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
         return response.json();
     })
-    .then(data => console.log("✅ Producto agregado:", data))
-    .catch(error => console.error("❌ Error al agregar producto:", error.message));
+    .then(data => console.log("Added product:", data))
+    .catch(error => console.error("Error when adding product:", error.message));
 }
 
 // Uso: addProduct({ name: "Nuevo", price: 50 });
@@ -52,12 +52,12 @@ function addProduct(product) {
 // UPDATE - Actualizar producto (PUT)
 function updateProduct(id, updateData) {
     if (!id || typeof id !== 'number') {
-        console.error("❌ ID inválido para actualización.");
+        console.error("Invalid ID for update.");
         return;
     }
 
     if (!isValidProduct(updateData)) {
-        console.error("❌ Datos inválidos para actualización.");
+        console.error("Invalid data for update.");
         return;
     }
 
@@ -72,8 +72,8 @@ function updateProduct(id, updateData) {
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
         return response.json();
     })
-    .then(data => console.log(`✅ Producto con ID ${id} actualizado:`, data))
-    .catch(error => console.error("❌ Error al actualizar producto:", error.message));
+    .then(data => console.log(` Product with ID ${id} uptade!:`, data))
+    .catch(error => console.error("Error updating:", error.message));
 }
 
 // Uso: updateProduct(1, { name: "Modificado", price: 123 });
@@ -81,7 +81,7 @@ function updateProduct(id, updateData) {
 // DELETE - Eliminar producto (DELETE)
 function deleteProduct(id) {
     if (!id || typeof id !== 'number') {
-        console.error("❌ ID inválido para eliminar.");
+        console.error(" Invalid Id for delete.");
         return;
     }
 
@@ -90,9 +90,8 @@ function deleteProduct(id) {
     })
     .then(response => {
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        console.log(`✅ Producto con ID ${id} eliminado.`);
+        console.log(` Product with ID ${id} delete.`);
     })
-    .catch(error => console.error("❌ Error al eliminar producto:", error.message));
+    .catch(error => console.error(" Error when deleting:", error.message));
 }
-
 // Uso: deleteProduct(1);
